@@ -1,0 +1,28 @@
+
+name: Graduate Job Search
+
+on:
+  schedule:
+    - cron: "0 9 * * *"  # Runs daily at 09:00 UTC (10:00 WAT)
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  run-graduate-job-search:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Graduate Job Search Script
+        run: python daily-job-search-cr/fetch_graduate_jobs.py
